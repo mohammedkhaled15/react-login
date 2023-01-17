@@ -12,7 +12,9 @@ const Home = () => {
   const logout = async () => {
     // if used in more components, this should be in context
     // axios to /logout endpoint
-    await axios.get(LOGOUT_URL);
+    await axios.get(LOGOUT_URL, {
+      withCredentials: true,
+    });
     setAuth({});
     navigate("/login");
   };

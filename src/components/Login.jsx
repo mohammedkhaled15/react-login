@@ -6,9 +6,11 @@ const LOGIN_URL = "/auth"
 
 const Login = () => {
   const { setAuth } = useAuth()
+
   const navigate = useNavigate()
   const location = useLocation()
   const from = location.state?.from?.pathname || "/"
+
   const userRef = useRef()
   const errRef = useRef()
 
@@ -30,9 +32,7 @@ const Login = () => {
       const response = await axios.post(LOGIN_URL,
         JSON.stringify({ user, pwd }),
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json", },
           withCredentials: true
         })
       console.log(response?.data?.accessToken, response?.data?.roles)
