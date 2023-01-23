@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 
-const PresistLogin = () => {
-  const { auth, presist } = useAuth();
+const PersistLogin = () => {
+  const { auth, persist } = useAuth();
   const refresh = useRefreshToken();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,8 +26,8 @@ const PresistLogin = () => {
   //   console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
   // }, [isLoading, auth]);
   return (
-    <>{!presist ? <Outlet /> : isLoading ? <p>Loading ....</p> : <Outlet />}</>
+    <>{!persist ? <Outlet /> : isLoading ? <p>Loading ....</p> : <Outlet />}</>
   );
 };
 
-export default PresistLogin;
+export default PersistLogin;

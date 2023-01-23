@@ -10,7 +10,7 @@ import Admin from "./components/Admin";
 import Lounge from "./components/Lounge";
 import Missing from "./components/Missing";
 import RequireAuth from "./components/RequireAuth";
-import PresistLogin from "./components/PresistLogin";
+import PersistLogin from "./components/PersistLogin";
 
 const ROLES = {
   User: 2001,
@@ -29,7 +29,7 @@ function App() {
         <Route path="unauthorized" element={<Unauthorized />} />
 
         {/* protected routes */}
-        <Route element={<PresistLogin />}>
+        <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
             <Route path="/" element={<Home />} />
           </Route>

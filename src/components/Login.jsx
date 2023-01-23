@@ -3,10 +3,12 @@ import { useState, useEffect, useRef } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
 import useLocalStorage from "../hooks/useLocalStorage"
+import useInput from "../hooks/useInput"
+
 const LOGIN_URL = "/auth"
 
 const Login = () => {
-  const { setAuth, presist, setPresist } = useAuth()
+  const { setAuth, persist, setPersist } = useAuth()
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -15,7 +17,7 @@ const Login = () => {
   const userRef = useRef()
   const errRef = useRef()
 
-  const [user, setUser] = useLocalStorage("user", "")//useState("mohammed")
+  const [user, userReset, usertAttribs] = useInput("user", "")//useState("mohammed")
   const [pwd, setPwd] = useState("")
   const [errMsg, setErrMsg] = useState("")
 
@@ -40,7 +42,8 @@ const Login = () => {
       const accessToken = response?.data?.accessToken
       const roles = response?.data?.roles
       setAuth({ user, pwd, roles, accessToken })
-      setUser("")
+      // setUser("")
+      userReset()
       setPwd("")
       navigate(from, { replace: true })
     } catch (err) {
@@ -53,13 +56,13 @@ const Login = () => {
     }
   }
 
-  const presistToggle = () => {
-    setPresist(prev => !prev)
+  const persistToggle = () => {
+    setPersist(prev => !prev)
   }
 
   useEffect(() => {
-    localStorage.setItem("presist", presist)
-  }, [presist])
+    localStorage.setItem("presist", persist)
+  }, [persist])
 
   return (
     <section>
@@ -72,8 +75,7 @@ const Login = () => {
           id="username"
           ref={userRef}
           autoComplete="off"
-          onChange={(e) => setUser(e.target.value)}
-          value={user}
+          {...usertAttribs}
           required
         />
         <label htmlFor="password">Password:</label>
@@ -90,8 +92,8 @@ const Login = () => {
           <input
             id="presist"
             type="checkbox"
-            onChange={presistToggle}
-            checked={presist}
+            onChange={persistToggle}
+            checked={persist}
           />
           <label htmlFor="presist">Trust this device</label>
         </div>
