@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
 import useLocalStorage from "../hooks/useLocalStorage"
 import useInput from "../hooks/useInput"
+import useToggle from "../hooks/useToggle"
 
 const LOGIN_URL = "/auth"
 
@@ -17,9 +18,12 @@ const Login = () => {
   const userRef = useRef()
   const errRef = useRef()
 
-  const [user, userReset, usertAttribs] = useInput("user", "")//useState("mohammed")
+  const [user, userReset, usertAttribs] = useInput("user", "")
   const [pwd, setPwd] = useState("")
   const [errMsg, setErrMsg] = useState("")
+
+  const [check, checkToggle] = useToggle("persist", false)
+
 
   useEffect(() => {
     userRef.current.focus()
@@ -61,7 +65,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    localStorage.setItem("presist", persist)
+    localStorage.setItem("persist", persist)
   }, [persist])
 
   return (
@@ -88,14 +92,14 @@ const Login = () => {
         />
         <button>Sign In</button>
         <br />
-        <div className="presistCheck">
+        <div className="persistCheck">
           <input
-            id="presist"
+            id="persist"
             type="checkbox"
-            onChange={persistToggle}
-            checked={persist}
+            onChange={checkToggle}
+            checked={check}
           />
-          <label htmlFor="presist">Trust this device</label>
+          <label htmlFor="persist">Trust this device</label>
         </div>
       </form>
       <p>
