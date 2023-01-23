@@ -2,10 +2,11 @@ import axios from "../api/axios"
 import { useState, useEffect, useRef } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
+import useLocalStorage from "../hooks/useLocalStorage"
 const LOGIN_URL = "/auth"
 
 const Login = () => {
-  const { setAuth } = useAuth()
+  const { setAuth, presist, setPresist } = useAuth()
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -14,7 +15,7 @@ const Login = () => {
   const userRef = useRef()
   const errRef = useRef()
 
-  const [user, setUser] = useState("")
+  const [user, setUser] = useLocalStorage("user", "")//useState("mohammed")
   const [pwd, setPwd] = useState("")
   const [errMsg, setErrMsg] = useState("")
 
@@ -52,6 +53,14 @@ const Login = () => {
     }
   }
 
+  const presistToggle = () => {
+    setPresist(prev => !prev)
+  }
+
+  useEffect(() => {
+    localStorage.setItem("presist", presist)
+  }, [presist])
+
   return (
     <section>
       <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
@@ -76,6 +85,16 @@ const Login = () => {
           required
         />
         <button>Sign In</button>
+        <br />
+        <div className="presistCheck">
+          <input
+            id="presist"
+            type="checkbox"
+            onChange={presistToggle}
+            checked={presist}
+          />
+          <label htmlFor="presist">Trust this device</label>
+        </div>
       </form>
       <p>
         Need an Account? <br />
