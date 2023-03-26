@@ -2,9 +2,9 @@ import axios from "../api/axios"
 import { useState, useEffect, useRef } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
-import useLocalStorage from "../hooks/useLocalStorage"
 import useInput from "../hooks/useInput"
 import useToggle from "../hooks/useToggle"
+
 
 const LOGIN_URL = "/auth"
 
@@ -42,10 +42,9 @@ const Login = () => {
           headers: { "Content-Type": "application/json", },
           withCredentials: true
         })
-      console.log(response?.data?.accessToken, response?.data?.roles)
+      // console.log(response?.data?.accessToken, response?.data?.roles)
       const accessToken = response?.data?.accessToken
-      const roles = response?.data?.roles
-      setAuth({ user, pwd, roles, accessToken })
+      setAuth({ user, accessToken })
       // setUser("")
       userReset()
       setPwd("")
